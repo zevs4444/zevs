@@ -1,0 +1,160 @@
+<html>
+
+<head>
+<title>карты</title>
+</head>
+
+<body>
+<img id="MyImage" src="0.jpg" width="200" height="300">
+<img id="MyImage2" src="0.jpg" width="200" height="300">
+<img id="rubashka" src="200.jpg" width="200" height="300">
+
+<br><input type="button" value="карта 1 игроку" onClick="LoadImage('0');">
+
+<br><input type="button" value="карта 2 игроку" onClick="LoadImage2('1');">
+
+<br><input type="button" value="какие карты у первого игрока" onClick="massiv();">
+<br><input type="button" value="какие карты у второго игрока" onClick="massiv2();">
+<br><input type="button" value="выбывшие карты" onClick="massiv3();">
+<br><input type="button" value="выигрыши 1 игрока" onClick="vyigr1();">
+<br><input type="button" value="выигрыши 2 игрока" onClick="vyigr2();">
+<br><input type="button" value="счетчик" onClick="schet();">
+
+<script>
+var chetchic=0
+var massiv_s_ubyvsh=[];
+var massiv_s_kartami_1_igroka=[];
+var massiv_s_kartami_2_igroka=[];
+var MyImage = document.getElementById("MyImage");
+var quest
+var y
+var sluch_chislo
+var sluch_chislo2
+var massiv_s_vyigrish_1_igr=[];
+var massiv_s_vyigrish_2_igr=[];
+
+var rubashka = document.getElementById("rubashka");
+
+
+function LoadImage(fn) {
+if(massiv_s_kartami_2_igroka.length==massiv_s_kartami_1_igroka.length){MyImage2.src = 0 + ".jpg";}
+document.getElementById('ticket').innerHTML = "";
+if(massiv_s_kartami_1_igroka.length==massiv_s_kartami_2_igroka.length || massiv_s_kartami_1_igroka.length==massiv_s_kartami_2_igroka.length-1){
+
+sluch_chislo=randomInteger(1,52)
+while(massiv_s_ubyvsh.indexOf(sluch_chislo)>-1){
+sluch_chislo=randomInteger(1,52);}
+massiv_s_kartami_1_igroka.push(sluch_chislo);
+massiv_s_ubyvsh.push(sluch_chislo);
+  MyImage.src = sluch_chislo + ".jpg";
+}
+else {alert('раздай карту второму игроку');}
+if(massiv_s_kartami_1_igroka.length==massiv_s_kartami_2_igroka.length){
+chetchic++;
+y=vyigryvshiy_igrok(sluch_chislo,sluch_chislo2);
+document.getElementById('ticket').innerHTML = 'в этом раунде' + y;}
+
+
+
+
+
+
+if(chetchic==26)
+{
+document.getElementById('ticket2').innerHTML = vyigr_igra();chetchic=0;rubashka.src = 0 + ".jpg";MyImage.src = sluch_chislo + ".jpg";quest=confirm("сыграть ещё?")}
+
+
+if(quest) {massiv_s_ubyvsh.splice(0, 52);massiv_s_kartami_1_igroka.splice(0, 52);massiv_s_kartami_2_igroka.splice(0, 52);massiv_s_vyigrish_1_igr.splice(0, 52);massiv_s_vyigrish_2_igr.splice(0, 52);chetchic=0;rubashka.src = 200 + ".jpg";document.getElementById('ticket2').innerHTML = " ";document.getElementById('ticket').innerHTML = " ";quest=false;MyImage2.src = 0 + ".jpg";MyImage.src = 0 + ".jpg"}
+
+
+
+;}
+
+
+
+var MyImage2 = document.getElementById("MyImage2");
+function LoadImage2(fn) {
+if(massiv_s_kartami_2_igroka.length==massiv_s_kartami_1_igroka.length){MyImage.src = 0 + ".jpg";}
+document.getElementById('ticket').innerHTML = "";
+if(massiv_s_kartami_2_igroka.length==massiv_s_kartami_1_igroka.length || massiv_s_kartami_2_igroka.length==massiv_s_kartami_1_igroka.length-1){
+
+sluch_chislo2=randomInteger(1,52)
+while(massiv_s_ubyvsh.indexOf(sluch_chislo2)>-1){
+sluch_chislo2=randomInteger(1,52);}
+massiv_s_kartami_2_igroka.push(sluch_chislo2);
+massiv_s_ubyvsh.push(sluch_chislo2);
+  MyImage2.src = sluch_chislo2 + ".jpg";
+  }
+else {alert('раздай карту первому игроку');}
+if(massiv_s_kartami_1_igroka.length==massiv_s_kartami_2_igroka.length){
+chetchic++;
+y=vyigryvshiy_igrok(sluch_chislo,sluch_chislo2);
+document.getElementById('ticket').innerHTML = 'в этом раунде' + y;}
+
+
+
+
+
+if(chetchic==26)
+{
+document.getElementById('ticket2').innerHTML = vyigr_igra() ;chetchic=0;rubashka.src = 0 + ".jpg";MyImage2.src = sluch_chislo2 + ".jpg";quest=confirm("сыграть ещё?")}
+
+if(quest) {massiv_s_ubyvsh.splice(0, 52);massiv_s_kartami_1_igroka.splice(0, 52);massiv_s_kartami_2_igroka.splice(0, 52);massiv_s_vyigrish_1_igr.splice(0, 52);massiv_s_vyigrish_2_igr.splice(0, 52);chetchic=0;rubashka.src = 200 + ".jpg";document.getElementById('ticket2').innerHTML = " ";document.getElementById('ticket').innerHTML = " ";quest=false;MyImage2.src = 0 + ".jpg";MyImage.src = 0 + ".jpg"}
+
+;}
+
+
+function vyigryvshiy_igrok() {
+var x
+
+sluch_chislo=Math.ceil(sluch_chislo/4)
+sluch_chislo2=Math.ceil(sluch_chislo2/4)
+
+
+ if(sluch_chislo<sluch_chislo2){x=" выиграл 2 игрок";massiv_s_vyigrish_2_igr.push(1);}
+else if(sluch_chislo==sluch_chislo2){x=" ничья";}
+else{x=" выиграл 1 игрок";massiv_s_vyigrish_1_igr.push(1);}
+return x;
+
+}
+
+
+function randomInteger(min, max) {
+  var rand = min + Math.random() * (max - min)
+  rand = Math.round(rand);
+  return rand;
+}
+function massiv(){alert(massiv_s_kartami_1_igroka)};
+function massiv2(){alert(massiv_s_kartami_2_igroka)};
+function massiv3(){alert(massiv_s_ubyvsh)};
+function vyigr1(){alert(massiv_s_vyigrish_1_igr)};
+function vyigr2(){alert(massiv_s_vyigrish_2_igr)};
+function schet(){alert(chetchic)};
+
+
+function vyigr_igra() {
+var x
+
+
+ if(massiv_s_vyigrish_1_igr.length<massiv_s_vyigrish_2_igr.length){x=" победа за вторым игроком";}
+else if(massiv_s_vyigrish_1_igr.length==massiv_s_vyigrish_2_igr.length){x=" ничья";}
+else{x=" победа за первым игроком";}
+return x;
+
+}
+
+</script>
+
+
+<center class="wrapper">
+<p id="ticket"></p>
+</center>
+<center class="wrapper">
+<p id="ticket2"></p>
+</center>
+
+
+
+</body>
+
+</html>
